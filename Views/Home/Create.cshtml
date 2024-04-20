@@ -82,12 +82,12 @@
         </div>
 
         <div class="form-group">
-
-            <label class="control-label col-md-2">
+            @* <label class="control-label col-md-2">
                 Total Tax Price
-            </label>
-            <div class="col-md-10">              
-                @Html.EditorFor(model => model.TotalTaxPrice, new { htmlAttributes = new { @class = "form-control", placeholder = "Price With Tax" } })
+            </label> *@
+            @Html.LabelFor(model => model.TotalTaxPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TotalTaxPrice, new { htmlAttributes = new { @class = "form-control", placeholder = "Total Tax Price" } })
                 @Html.ValidationMessageFor(model => model.TotalTaxPrice, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -125,15 +125,16 @@
         });
     });
 
+
     $('#Price').on('input', function () {
         var price = $(this).val();
         var taxPercent = +$('#taxValue').val();
         console.log(taxPercent)
         if (price) {
-            var priceWithTax = price * taxPercent/100;
-            $('#TotalTaxPrice').val(priceWithTax.toFixed(2)).change();
+            var priceWithTax = price * taxPercent / 100;
+            $('#TotalTaxPrice').val(priceWithTax.toFixed(2)).attr('value', priceWithTax.toFixed(2)).change();
         } else {
-            $('#TotalTaxPrice').val('').change();
+            $('#TotalTaxPrice').val('').attr('value', '').change();
         }
     });
 

@@ -82,15 +82,18 @@ namespace project_ilcs.Controllers
                 int recordsTotal = 0;
 
                 // Getting all Transaction data    
-                var transactions = _context.Transactions.Select(t => new Transaction
-                {
-                    Id = t.Id,
-                    Country = t.Country,
-                    Harbor = t.Harbor,
-                    ProductID = t.ProductID,
-                    Price = t.Price,
-                    TotalTaxPrice = t.TotalTaxPrice,
-                });
+                var transactions = from t in _context.Transactions
+                                   join p in _context.Products on t.ProductID equals p.ProductID
+                                   select new TransactionResponse
+                                   {
+                                       Id = t.Id,
+                                       Country = t.Country,
+                                       Harbor = t.Harbor,
+                                       Price = t.Price,
+                                       TotalTaxPrice = t.TotalTaxPrice,
+                                       ProductName = p.ProductName,
+                                       Tax = p.Tax
+                                   };
 
                 //Search
                 if (!string.IsNullOrEmpty(searchValue))
