@@ -13,7 +13,7 @@
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-     
+
         <div class="form-group">
             <label class="control-label col-md-2" for="last-name" id="lbl_mini" name="lbl_mini">
                 Countries
@@ -25,18 +25,29 @@
                     {
                         foreach (var item in ViewBag.Countries)
                         {
-                            <option value="@item.Iso2">@item.Name</option>
+                            <option value="@item.Name">@item.Name</option>
                         }
                     }
+
                 </select>
             </div>
         </div>
-
         <div class="form-group">
-            @Html.LabelFor(model => model.Harbor, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label class="control-label col-md-2" for="last-name" id="lbl_mini" name="lbl_mini">
+                Countries
+            </label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Harbor, new { htmlAttributes = new { @class = "form-control", placeholder = "Harbor" } })
-                @Html.ValidationMessageFor(model => model.Harbor, "", new { @class = "text-danger" })
+                <select class="form-control select2" id="Harbor" name="Harbor" style="width: 50%;" placeholder="Position">
+                    <option value="">Choose Harbor</option>
+                    @if (ViewBag.Harbor != null)
+                    {
+                        foreach (var item in ViewBag.Harbor)
+                        {
+                            <option value="@item.Cities">@item.Cities</option>
+                        }
+                    }
+
+                </select>
             </div>
         </div>
 
@@ -75,3 +86,25 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+<script>
+    $(document).ready(function () {
+        $('#Country').change(function () {
+            var selectedCountry = $(this).val();
+            $.ajax({
+                url: '/Harbors',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ Name: selectedCountry }), 
+                success: function (data) {
+                    var harborDropdown = $('#Harbor');
+                    harborDropdown.empty();
+                    harborDropdown.append('<option value="">Choose Harbor</option>');
+                    $.each(data, function (index, item) {
+                        harborDropdown.append('<option value="' + item + '">' + item + '</option>');
+                    });
+                }
+            });
+        });
+    });
+</script>

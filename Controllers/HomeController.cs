@@ -4,6 +4,7 @@ using project_ilcs.Models;
 using System.Diagnostics;
 using project_ilcs.dto;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace project_ilcs.Controllers
 {
@@ -122,12 +123,33 @@ namespace project_ilcs.Controllers
                 var countries = new List<CountryResponse>();
                 foreach (var item in data.data)
                 {
-                    countries.Add(new CountryResponse { Name = item.country.ToString(), Iso2 = item.iso2.ToString() });
+                    countries.Add(new CountryResponse
+                    {
+                        Name = item.country.ToString(),
+                        Iso2 = item.iso2.ToString(),
+                    });
                 }
                 return countries;
             }
 
             return new List<CountryResponse>();
+        }
+
+        [HttpPost("Harbors")]
+        public async Task<IActionResult> GetHarbors([FromBody] CountryResponse request)
+        {
+            var country = request.Name;
+            var content = new StringContent(JsonConvert.SerializeObject(new { country = country }), Encoding.UTF8, "application/json");
+            var response = await _client.PostAsync("https://countriesnow.space/api/v0.1/countries/cities", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+                var apiResponse = JsonConvert.DeserializeObject<HarborResponse>(responseContent);
+                return Ok(apiResponse.Data);
+            }
+
+            return NotFound();
         }
         #endregion
 

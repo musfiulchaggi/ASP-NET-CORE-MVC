@@ -409,3 +409,4 @@ C:\Users\Toshiba\source\repos\project_ilcs\project_ilcs\obj\Debug\net8.0\project
 C:\Users\Toshiba\source\repos\project_ilcs\project_ilcs\obj\Debug\net8.0\project_ilcs.genruntimeconfig.cache
 C:\Users\Toshiba\source\repos\project_ilcs\project_ilcs\obj\Debug\net8.0\ref\project_ilcs.dll
 C:\Users\Toshiba\source\repos\project_ilcs\project_ilcs\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\Toshiba\source\repos\project_ilcs\project_ilcs\obj\Debug\net8.0\project_ilcs.sourcelink.json
