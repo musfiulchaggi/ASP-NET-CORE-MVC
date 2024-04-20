@@ -19,7 +19,7 @@
                 Countries
             </label>
             <div class="col-md-10">
-                <select class="form-control select2" id="Country" name="Country" style="width: 50%;" placeholder="Position">
+                <select class="form-control select2" id="Country" name="Country" style="width: 100%;" placeholder="Position">
                     <option value="">Choose Country</option>
                     @if (ViewBag.Countries != null)
                     {
@@ -37,7 +37,7 @@
                 Harbors
             </label>
             <div class="col-md-10">
-                <select class="form-control select2" id="Harbor" name="Harbor" style="width: 50%;" placeholder="Position">
+                <select class="form-control select2" id="Harbor" name="Harbor" style="width: 100%;" placeholder="Position">
                     <option value="">Choose Harbor</option>
                     @if (ViewBag.Harbor != null)
                     {
@@ -77,7 +77,7 @@
                 Tax
             </label>
             <div class="col-md-10 d-flex">
-                <input class="form-control w-25 mb-3" id="taxValue" type="text" placeholder="Tax" readonly>
+                <input class="form-control mb-3" id="taxValue" type="text" placeholder="Tax" readonly>
             </div>
         </div>
 
