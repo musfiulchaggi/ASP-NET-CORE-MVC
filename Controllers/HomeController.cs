@@ -131,10 +131,7 @@ namespace project_ilcs.Controllers
                         Name = item.country.ToString(),
                         Iso2 = item.iso2.ToString(),
                     });
-
-
                 }
-                var sortedCountries = countries.Where(x => x.Name.Trim().ToLower().Contains("ind")).ToList();
                 return countries;
             }
 
