@@ -87,15 +87,15 @@ namespace project_ilcs.Controllers
                     Id = t.Id,
                     Country = t.Country,
                     Harbor = t.Harbor,
-                    ProductName = t.ProductName,
+                    ProductID = t.ProductID,
                     Price = t.Price,
-                    Tax = t.Tax,
+                    TotalTaxPrice = t.TotalTaxPrice,
                 });
 
                 //Search
                 if (!string.IsNullOrEmpty(searchValue))
                 {
-                    transactions = transactions.Where(t => t.Country.Contains(searchValue) || t.ProductName.Contains(searchValue));
+                    transactions = transactions.Where(t => t.Country.Contains(searchValue) );
                 }
 
                 //total number of rows count     
@@ -151,6 +151,23 @@ namespace project_ilcs.Controllers
 
             return NotFound();
         }
+
+        [HttpGet("Products/{productID}")]
+        public List<Products> GetProducts(int? productID)
+        {
+            var list = (from x in _context.Products
+                        where x.ProductID == productID
+                        select
+                          new Products()
+                          {
+                              ProductID = x.ProductID,
+                              ProductName = x.ProductName,
+                              ProductDescription = x.ProductDescription,
+                              Tax = x.Tax
+                          }).Distinct().ToList();
+
+            return list;
+        }
         #endregion
 
         #region
@@ -201,9 +218,9 @@ namespace project_ilcs.Controllers
 
             existingTransaction.Country = updatedTransaction.Country;
             existingTransaction.Harbor = updatedTransaction.Harbor;
-            existingTransaction.ProductName = updatedTransaction.ProductName;
+            existingTransaction.ProductID = updatedTransaction.ProductID;
             existingTransaction.Price = updatedTransaction.Price;
-            existingTransaction.Tax = updatedTransaction.Tax;
+            existingTransaction.TotalTaxPrice = updatedTransaction.TotalTaxPrice;
 
             try
             {

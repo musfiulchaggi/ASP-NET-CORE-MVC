@@ -34,7 +34,7 @@
         </div>
         <div class="form-group">
             <label class="control-label col-md-2" for="last-name" id="lbl_mini" name="lbl_mini">
-                Countries
+                Harbors
             </label>
             <div class="col-md-10">
                 <select class="form-control select2" id="Harbor" name="Harbor" style="width: 50%;" placeholder="Position">
@@ -52,11 +52,16 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ProductID, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control", placeholder = "ProductName" } })
-                @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.ProductID, new { htmlAttributes = new { @class = "form-control", placeholder = "Product Id" } })
+                @Html.ValidationMessageFor(model => model.ProductID, "", new { @class = "text-danger" })
+
+                <div class="form-group mt-3">
+                    <textarea class="form-control" id="productNameArea" rows="3"></textarea>
+                </div>
             </div>
+            
         </div>
 
         <div class="form-group">
@@ -68,10 +73,22 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Tax, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Tax, new { htmlAttributes = new { @class = "form-control", placeholder = "Tax" } })
-                @Html.ValidationMessageFor(model => model.Tax, "", new { @class = "text-danger" })
+            <label class="control-label col-md-2">
+                Tax
+            </label>
+            <div class="col-md-10 d-flex">
+                <input class="form-control w-25 mb-3" id="taxValue" type="text" placeholder="Tax" readonly>
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            <label class="control-label col-md-2">
+                Total Tax Price
+            </label>
+            <div class="col-md-10">              
+                @Html.EditorFor(model => model.TotalTaxPrice, new { htmlAttributes = new { @class = "form-control", placeholder = "Price With Tax" } })
+                @Html.ValidationMessageFor(model => model.TotalTaxPrice, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -105,6 +122,39 @@
                     });
                 }
             });
+        });
+    });
+
+    $('#Price').on('input', function () {
+        var price = $(this).val();
+        var taxPercent = +$('#taxValue').val();
+        console.log(taxPercent)
+        if (price) {
+            var priceWithTax = price * taxPercent/100;
+            $('#TotalTaxPrice').val(priceWithTax.toFixed(2)).change();
+        } else {
+            $('#TotalTaxPrice').val('').change();
+        }
+    });
+
+    $('#ProductID').change(function () {
+        var productId = $(this).val();
+
+        $.ajax({
+            url: '/Products/' + productId,
+            type: 'GET',
+            success: function (data) {
+                console.log(data);
+                $.each(data, function (index, item) {
+                    $('#productNameArea').val(function (i, text) {
+                        return text + item.productName + '\n';
+                    });
+                    $('#taxValue').val(item.tax);
+                });
+            },
+            error: function () {
+                alert('Error retrieving product.');
+            }
         });
     });
 </script>

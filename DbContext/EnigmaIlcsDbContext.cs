@@ -10,5 +10,6 @@ namespace project_ilcs
 
         }
         public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<Products> Products { get; set; }
     }
 }

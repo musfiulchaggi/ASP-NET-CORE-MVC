@@ -22,6 +22,28 @@ namespace projectilcs.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("project_ilcs.Models.Products", b =>
+                {
+                    b.Property<int>("ProductID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductID"));
+
+                    b.Property<string>("ProductDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProductName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Tax")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductID");
+
+                    b.ToTable("Products");
+                });
+
             modelBuilder.Entity("project_ilcs.Models.Transaction", b =>
                 {
                     b.Property<int>("Id")
@@ -39,10 +61,10 @@ namespace projectilcs.Migrations
                     b.Property<int?>("Price")
                         .HasColumnType("int");
 
-                    b.Property<string>("ProductName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("ProductID")
+                        .HasColumnType("int");
 
-                    b.Property<int?>("Tax")
+                    b.Property<int?>("TotalTaxPrice")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

@@ -12,8 +12,8 @@ using project_ilcs;
 namespace projectilcs.Migrations
 {
     [DbContext(typeof(EnigmaIlcsDbContext))]
-    [Migration("20240420020744_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240420064733_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,28 @@ namespace projectilcs.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("project_ilcs.Models.Products", b =>
+                {
+                    b.Property<int>("ProductID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductID"));
+
+                    b.Property<string>("ProductDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProductName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Tax")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductID");
+
+                    b.ToTable("Products");
+                });
 
             modelBuilder.Entity("project_ilcs.Models.Transaction", b =>
                 {
@@ -42,10 +64,10 @@ namespace projectilcs.Migrations
                     b.Property<int?>("Price")
                         .HasColumnType("int");
 
-                    b.Property<string>("ProductName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("ProductID")
+                        .HasColumnType("int");
 
-                    b.Property<int?>("Tax")
+                    b.Property<int?>("TotalTaxPrice")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
