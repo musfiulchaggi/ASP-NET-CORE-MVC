@@ -131,7 +131,10 @@ namespace project_ilcs.Controllers
                         Name = item.country.ToString(),
                         Iso2 = item.iso2.ToString(),
                     });
+
+
                 }
+                var sortedCountries = countries.Where(x => x.Name.Trim().ToLower().Contains("ind")).ToList();
                 return countries;
             }
 
@@ -141,8 +144,8 @@ namespace project_ilcs.Controllers
         [HttpPost("Harbors")]
         public async Task<IActionResult> GetHarbors([FromBody] CountryResponse request)
         {
-            var country = request.Name;
-            var content = new StringContent(JsonConvert.SerializeObject(new { country = country }), Encoding.UTF8, "application/json");
+            var country = request.Iso2;
+            var content = new StringContent(JsonConvert.SerializeObject(new { iso2 = country }), Encoding.UTF8, "application/json");
             var response = await _client.PostAsync("https://countriesnow.space/api/v0.1/countries/cities", content);
 
             if (response.IsSuccessStatusCode)

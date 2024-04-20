@@ -25,13 +25,14 @@
                     {
                         foreach (var item in ViewBag.Countries)
                         {
-                            <option value="@item.Name">@item.Name</option>
+                            <option value="@item.Iso2">@item.Name</option>
                         }
                     }
 
                 </select>
             </div>
         </div>
+
         <div class="form-group">
             <label class="control-label col-md-2" for="last-name" id="lbl_mini" name="lbl_mini">
                 Harbors
@@ -106,13 +107,15 @@
 
 <script>
     $(document).ready(function () {
+        $('#Country').select2();
+        $('#Harbor').select2();
         $('#Country').change(function () {
             var selectedCountry = $(this).val();
             $.ajax({
                 url: '/Harbors',
                 method: 'POST',
                 contentType: 'application/json',
-                data: JSON.stringify({ Name: selectedCountry }), 
+                data: JSON.stringify({ Iso2: selectedCountry }), 
                 success: function (data) {
                     var harborDropdown = $('#Harbor');
                     harborDropdown.empty();
@@ -158,4 +161,5 @@
             }
         });
     });
+
 </script>
