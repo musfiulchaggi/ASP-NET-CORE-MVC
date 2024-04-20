@@ -132,7 +132,7 @@
         console.log(taxPercent)
         if (price) {
             var priceWithTax = price * taxPercent / 100;
-            $('#TotalTaxPrice').val(priceWithTax.toFixed(2)).attr('value', priceWithTax.toFixed(2)).change();
+            $('#TotalTaxPrice').val(priceWithTax).attr('value', priceWithTax).change();
         } else {
             $('#TotalTaxPrice').val('').attr('value', '').change();
         }
